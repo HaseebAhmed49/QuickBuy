@@ -3,9 +3,9 @@ namespace Core.Models
 {
     public class SellerPerformance: BaseEntity
     {
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
 
-        public Seller Seller { get; set; }
+        public Seller? Seller { get; set; }
 
         public int Rating { get; set; }
 

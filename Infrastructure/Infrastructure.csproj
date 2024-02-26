@@ -7,16 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="SeedData\" />
     <None Remove="Repository\" />
+    <None Remove="Data\" />
+    <None Remove="Data\SeedData\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SeedData\" />
     <Folder Include="Repository\" />
+    <Folder Include="Data\" />
+    <Folder Include="Data\SeedData\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

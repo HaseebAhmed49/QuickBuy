@@ -2,9 +2,9 @@
 {
     public class Order: BaseEntity
 	{
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public decimal TotalPrice { get; set; }
 
@@ -12,9 +12,9 @@
 
         public Status Status { get; set; }
 
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
 
-        public Seller Seller { get; set; }
+        public Seller? Seller { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
 

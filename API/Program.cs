@@ -12,7 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<QuickBuyDbContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("Name=SQLiteDB"));
+    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 });
 
 var app = builder.Build();

@@ -3,9 +3,9 @@ namespace Core.Models
 {
     public class Notification: BaseEntity
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public String Content { get; set; }
 
@@ -13,8 +13,8 @@ namespace Core.Models
 
         public DateTime TimeStamp { get; set; } = DateTime.Now;
 
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
 
-        public Seller Seller { get; set; }
+        public Seller? Seller { get; set; }
     }
 }

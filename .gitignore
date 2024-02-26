@@ -15,6 +15,14 @@ test-results/
 *.dmg
 *.app
 
+.vscode
+bin
+obj
+*.db
+
+appsettings.json
+appsettings.Development.json
+
 # content below from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
 # General
 .DS_Store

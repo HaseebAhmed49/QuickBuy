@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Core.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
+using System.Reflection;
 
 namespace Infrastructure
 {
@@ -13,104 +16,140 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             // Configure one-to-many relationship between Author and Book
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.ShoppingCarts)
+            .WithOne(sc => sc.User)
+            .HasForeignKey(u => u.UserId)
+            .IsRequired(false);
+
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.Orders)
+            .WithOne(o => o.User)
+            .HasForeignKey(u => u.UserId)
+            .IsRequired(false);
+
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.Reviews)
+            .WithOne(r => r.User)
+            .HasForeignKey(u => u.UserId)
+            .IsRequired(false);
+
+             modelBuilder.Entity<User>()
+            .HasMany(u => u.Notifications)
+            .WithOne(n => n.User)
+            .HasForeignKey(u => u.UserId)
+            .IsRequired(false);
+
+            modelBuilder.Entity<User>()
+           .HasMany(u => u.WishLists)
+           .WithOne(wl => wl.User)
+           .HasForeignKey(u => u.UserId)
+           .IsRequired(false);
+
+             modelBuilder.Entity<Seller>()
+            .HasMany(s => s.SellerPerformances)
+            .WithOne(sp => sp.Seller)
+            .HasForeignKey(sp => sp.SellerId)
+            .IsRequired(false);
+
+            modelBuilder.Entity<Seller>()
+           .HasMany(s => s.Products)
+           .WithOne(p => p.Seller)
+           .HasForeignKey(p => p.SellerId)
+           .IsRequired(false);
+
+            modelBuilder.Entity<Seller>()
+           .HasMany(s => s.Orders)
+           .WithOne(o => o.Seller)
+           .HasForeignKey(o => o.SellerId)
+           .IsRequired(false);
+
+            modelBuilder.Entity<Seller>()
+           .HasMany(s => s.Notifications)
+           .WithOne(n => n.Seller)
+           .HasForeignKey(n => n.SellerId)
+           .IsRequired(false);
+
+            //*Product to Review
+            //*Product to OrderItem
+            //*Product to CartItem
+
+            modelBuilder.Entity<Product>()
+           .HasMany(p => p.Reviews)
+           .WithOne(r => r.Product)
+           .HasForeignKey(r => r.ProductId)
+           .IsRequired(false);
+
+            modelBuilder.Entity<Product>()
+           .HasMany(p => p.OrderItems)
+           .WithOne(oi => oi.Product)
+           .HasForeignKey(oi => oi.ProductId)
+           .IsRequired(false);
+
+            modelBuilder.Entity<Product>()
+            .HasMany(p => p.CartItems)
+            .WithOne(ci => ci.Product)
+            .HasForeignKey(ci => ci.ProductId)
+            .IsRequired(false);
+
+            //*Category to Product
+
+            modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)
+            .WithOne(p => p.Category)
+            .HasForeignKey(p => p.CategoryId)
+            .IsRequired(false);
+
+            //*ShoppingCart to CartItem
+
             modelBuilder.Entity<ShoppingCart>()
-                .HasOne(s => s.User)
-                .WithMany(u => u.ShoppingCarts)
-                .HasForeignKey(s => s.UserId);
+            .HasMany(sc => sc.CartItems)
+            .WithOne(ci => ci.ShoppingCart)
+            .HasForeignKey(ci => ci.ShoppingCartId)
+            .IsRequired(false);
+
+            //*Order to OrderItem
+            //*Order to Payment
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId);
-
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.User)
-                .WithMany(u => u.Reviews)
-                .HasForeignKey(r => r.UserId);
-
-            modelBuilder.Entity<Notification>()
-                .HasOne(n => n.User)
-                .WithMany(u => u.Notifications)
-                .HasForeignKey(n => n.UserId);
-
-            modelBuilder.Entity<WishList>()
-                .HasOne(wl => wl.User)
-                .WithMany(u => u.WishLists)
-                .HasForeignKey(wl => wl.UserId);
-
-            modelBuilder.Entity<SellerPerformance>()
-                .HasOne(sp => sp.Seller)
-                .WithMany(s => s.SellerPerformances)
-                .HasForeignKey(sp => sp.SellerId);
-
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Seller)
-                .WithMany(s => s.Products)
-                .HasForeignKey(p => p.SellerId);
+            .HasMany(o => o.OrderItems)
+            .WithOne(oi => oi.Order)
+            .HasForeignKey(oi => oi.OrderId)
+            .IsRequired(false);
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Seller)
-                .WithMany(s => s.Orders)
-                .HasForeignKey(o => o.SellerId);
+            .HasMany(o => o.Payments)
+            .WithOne(p => p.Order)
+            .HasForeignKey(p => p.OrderId)
+            .IsRequired(false);
 
-            modelBuilder.Entity<Notification>()
-                .HasOne(n => n.Seller)
-                .WithMany(s => s.Notifications)
-                .HasForeignKey(n => n.SellerId);
-
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.Product)
-                .WithMany(p => p.Reviews)
-                .HasForeignKey(r => r.ProductId);
-
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(oi => oi.Product)
-                .WithMany(p => p.OrderItems)
-                .HasForeignKey(oi => oi.ProductId);
-
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Product)
-                .WithMany(p => p.CartItems)
-                .HasForeignKey(oi => oi.ProductId);
-
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(p => p.Products)
-                .HasForeignKey(p => p.CategoryId);
-
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.ShoppingCart)
-                .WithMany(sc => sc.CartItems)
-                .HasForeignKey(ci => ci.ShoppingCartId);
-
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(oi => oi.Order)
-                .WithMany(o => o.OrderItems)
-                .HasForeignKey(oi => oi.OrderId);
-
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.Order)
-                .WithMany(o => o.Payments)
-                .HasForeignKey(p => p.OrderId);
-
-            modelBuilder.Entity<WishListItem>()
-                .HasOne(wl => wl.WishList)
-                .WithMany(w => w.WishListItems)
-                .HasForeignKey(wl => wl.WishListId);
+            //*Wishlist to WishlistItem
 
             modelBuilder.Entity<WishList>()
-                .HasKey(wl => new { wl.UserId, wl.ProductId });
+            .HasMany(o => o.WishListItems)
+            .WithOne(wl => wl.WishList)
+            .HasForeignKey(wl => wl.WishListId)
+            .IsRequired(false);
 
-            modelBuilder.Entity<WishList>()
-                .HasOne(wl => wl.User)
-                .WithMany(u => u.WishLists)
-                .HasForeignKey(wl => wl.UserId);
+            //*Address to User
+            modelBuilder.Entity<ShippingAddress>()
+            .HasMany(o => o.Users)
+            .WithOne(sa => sa.ShippingAddress)
+            .HasForeignKey(sa => sa.AddressId)
+            .IsRequired(false);
 
-            modelBuilder.Entity<WishList>()
-                .HasOne(wl => wl.Product)
-                .WithMany(p => p.WishLists)
-                .HasForeignKey(wl => wl.ProductId);
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            //        *Many - to - Many relationships:
+            //        *User to Product(through Wishlist)
+            //*User to Product(through CartItem)
+            //*User to Order(through ShoppingCart)
+            //*Product to Seller(representing multiple sellers for a product)
+
 
             //// Configure many-to-many relationship between Student and Course
             //modelBuilder.Entity<StudentCourse>()

@@ -10,6 +10,10 @@
 
         public UserType UserType { get; set; }
 
+        public int? AddressId { get; set; }
+
+        public ShippingAddress? ShippingAddress { get; set; }
+
         public String VerificationStatus { get; set; }
 
         public ICollection<ShoppingCart> ShoppingCarts { get; set; }

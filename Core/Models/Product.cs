@@ -10,13 +10,13 @@
 
         public int StockQuantity { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
 
-        public Seller Seller { get; set; }
+        public Seller? Seller { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
 
